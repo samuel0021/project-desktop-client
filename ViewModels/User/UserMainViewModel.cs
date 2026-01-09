@@ -25,6 +25,7 @@ namespace Project.DesktopClient.ViewModels.User
         private string _title = "Menu de Usuários";
 
         private ObservableCollection<UserDetailsDto>? _users;
+        private UserDetailsDto? _selectedUser;
 
         private int _id;
         private string _firstName = string.Empty;
@@ -42,6 +43,11 @@ namespace Project.DesktopClient.ViewModels.User
         {
             get => _users;
             set => SetProperty(ref _users, value);
+        }
+        public UserDetailsDto SelectedUser
+        {
+            get => _selectedUser;
+            set => SetProperty(ref _selectedUser, value);
         }
         public int Id
         {
@@ -74,6 +80,8 @@ namespace Project.DesktopClient.ViewModels.User
         public DelegateCommand NavigateMenuCommand { get; }
         public DelegateCommand LoadUsersCommand { get; }
         public DelegateCommand OpenCreateDialogCommand { get; }
+        public DelegateCommand OpenEditDialogCommand { get; }
+        public DelegateCommand OpenDeleteDialogCommand { get; }
 
 
         public UserMainViewModel(ApiClient apiClient, IRegionManager regionManager, IDialogService dialogService, IBusyService busyService)
@@ -86,7 +94,11 @@ namespace Project.DesktopClient.ViewModels.User
             Users = new ObservableCollection<UserDetailsDto>();
 
             NavigateMenuCommand = new DelegateCommand(NavigateToMenu);
+
             OpenCreateDialogCommand = new DelegateCommand(OpenCreateDialog);
+            OpenEditDialogCommand = new DelegateCommand(OpenEditDialog);
+            OpenDeleteDialogCommand = new DelegateCommand(OpenDeleteDialog);
+
             LoadUsersCommand = new DelegateCommand(async () => await LoadUsersAsync());
 
             _ = LoadUsersAsync();
@@ -117,7 +129,62 @@ namespace Project.DesktopClient.ViewModels.User
         {
             _busyService.IsBusy = true;
 
-            _dialogService.ShowDialog("UserCreateDialog");
+            _dialogService.ShowDialog("UserCreateDialog", r =>
+            {
+                // Atualiza lista ao cadastrar usuário
+                if (r.Result == ButtonResult.OK)
+                {
+                    _ = LoadUsersAsync();
+                }
+            });
+
+            _busyService.IsBusy = false;
+        }
+
+        private void OpenEditDialog()
+        {
+            if (SelectedUser == null)
+                return;
+
+            _busyService.IsBusy = true;
+
+            var parameters = new DialogParameters
+            {
+                { "userId", SelectedUser.Id },
+            };
+
+            _dialogService.ShowDialog("UserEditDialog", parameters, r =>
+            {
+                // Atualiza lista ao editar usuário
+                if(r.Result == ButtonResult.OK)
+                {
+                    _ = LoadUsersAsync();
+                }
+            });
+
+            _busyService.IsBusy = false;
+        }
+
+        private void OpenDeleteDialog()
+        {
+            if (SelectedUser == null)
+                return;
+
+            _busyService.IsBusy = true;
+
+            var parameters = new DialogParameters
+            {
+                { "userId", SelectedUser.Id },
+            };
+
+            _dialogService.ShowDialog("UserDeleteDialog", parameters, r =>
+            {
+                // Atualiza lista ao editar usuário
+                if (r.Result == ButtonResult.OK)
+                {
+                    _ = LoadUsersAsync();
+                }
+            });
 
             _busyService.IsBusy = false;
         }

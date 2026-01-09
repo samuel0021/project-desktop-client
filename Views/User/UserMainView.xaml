@@ -21,6 +21,7 @@
 
         <DataGrid Grid.Row="1" Grid.Column="1" Margin="15"
             ItemsSource="{Binding Users}"
+            SelectedItem="{Binding SelectedUser}"
             AutoGenerateColumns="False">
 
             <DataGrid.Columns>
@@ -44,8 +45,13 @@
                         <DataTemplate>
 
                             <StackPanel Orientation="Horizontal">
-                                <Button Content="Atualizar"/>
-                                <Button Content="Deletar"/>
+                                <Button Content="Atualizar"
+                                    Command="{Binding DataContext.OpenEditDialogCommand, 
+                                    RelativeSource={RelativeSource AncestorType=UserControl}}"/>
+                                
+                                <Button Content="Deletar"
+                                        Command="{Binding DataContext.OpenDeleteDialogCommand, 
+                                    RelativeSource={RelativeSource AncestorType=UserControl}}"/>
                             </StackPanel>
 
                         </DataTemplate>
@@ -65,7 +71,7 @@
                     Width="75" Height="50"
                     Command="{Binding OpenCreateDialogCommand}"/>
 
-                <Button Content="Atualizar" Margin="15"
+                <Button Content="Atualizar lista" Margin="15"
                     Width="75" Height="50"
                     Command="{Binding LoadUsersCommand}"/>
                 

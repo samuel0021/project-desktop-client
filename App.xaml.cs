@@ -50,6 +50,8 @@ namespace Project.DesktopClient
 
             // Dialogs
             containerRegistry.RegisterDialog<UserCreateDialogView, UserCreateDialogViewModel>("UserCreateDialog");
+            containerRegistry.RegisterDialog<UserEditDialogView, UserEditDialogViewModel>("UserEditDialog");
+            containerRegistry.RegisterDialog<UserDeleteDialogView, UserDeleteDialogViewModel>("UserDeleteDialog");
         }
 
         protected override void ConfigureViewModelLocator()
