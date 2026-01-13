@@ -21,10 +21,10 @@ namespace Project.DesktopClient.ViewModels.User.Dialogs
         private int _userId;
 
         private int _id;
-        private string _firstName;
-        private string _lastName;
+        private string _firstName = string.Empty;
+        private string _lastName = string.Empty;
         private int _age;
-        private string _email;
+        private string _email = string.Empty;
 
         #region Encapsulations
         public string Title
@@ -92,7 +92,6 @@ namespace Project.DesktopClient.ViewModels.User.Dialogs
             _busyService.IsBusy = false;
         }
 
-        public event Action<IDialogResult>? RequestClose;
         public async void OnDialogOpened(IDialogParameters parameters)
         {
             if (parameters.ContainsKey("userId"))
@@ -113,8 +112,8 @@ namespace Project.DesktopClient.ViewModels.User.Dialogs
             _busyService.IsBusy = false;
         }
 
+        public event Action<IDialogResult>? RequestClose;
         public bool CanCloseDialog() => true;
-
         public void OnDialogClosed() { }
     }
 }

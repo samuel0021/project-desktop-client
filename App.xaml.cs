@@ -4,9 +4,13 @@ using Prism.Regions;
 using Prism.Unity;
 using Project.DesktopClient.Services.Api;
 using Project.DesktopClient.Services.Infrastructure;
+using Project.DesktopClient.ViewModels.Review;
+using Project.DesktopClient.ViewModels.Review.Dialogs;
 using Project.DesktopClient.ViewModels.Shell;
 using Project.DesktopClient.ViewModels.User;
 using Project.DesktopClient.ViewModels.User.Dialogs;
+using Project.DesktopClient.Views.Review;
+using Project.DesktopClient.Views.Review.Dialogs;
 using Project.DesktopClient.Views.Shell;
 using Project.DesktopClient.Views.User;
 using Project.DesktopClient.Views.User.Dialogs;
@@ -43,15 +47,21 @@ namespace Project.DesktopClient
 
             // Interfaces
             containerRegistry.RegisterSingleton<IBusyService, BusyService>();
+            containerRegistry.RegisterSingleton<IOpenFileDialogService, OpenFileDialogService>();
 
             // Navigation
             containerRegistry.RegisterForNavigation<MainMenuView, MainMenuViewModel>("MainMenuView");
             containerRegistry.RegisterForNavigation<UserMainView, UserMainViewModel>("UserMainView");
+            containerRegistry.RegisterForNavigation<ReviewMainView, ReviewMainViewModel>("ReviewMainView");
 
-            // Dialogs
+            // User Dialogs
             containerRegistry.RegisterDialog<UserCreateDialogView, UserCreateDialogViewModel>("UserCreateDialog");
             containerRegistry.RegisterDialog<UserEditDialogView, UserEditDialogViewModel>("UserEditDialog");
             containerRegistry.RegisterDialog<UserDeleteDialogView, UserDeleteDialogViewModel>("UserDeleteDialog");
+
+            // Review Dialogs
+            containerRegistry.RegisterDialog<ReviewVisualizeDialogView, ReviewVisualizeDialogViewModel>("ReviewVisualizeDialog");
+            containerRegistry.RegisterDialog<ReviewCreateDialogView, ReviewCreateDialogViewModel>("ReviewCreateDialog");
         }
 
         protected override void ConfigureViewModelLocator()
@@ -62,5 +72,4 @@ namespace Project.DesktopClient
             ViewModelLocationProvider.Register<MainMenuView, MainMenuViewModel>();
         }
     }
-
 }

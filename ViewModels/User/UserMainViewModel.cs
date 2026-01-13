@@ -125,6 +125,8 @@ namespace Project.DesktopClient.ViewModels.User
             _regionManager.RequestNavigate("ShellRegion", "MainMenuView");
         }
 
+
+        // CREATE DIALOG
         private void OpenCreateDialog()
         {
             _busyService.IsBusy = true;
@@ -141,6 +143,7 @@ namespace Project.DesktopClient.ViewModels.User
             _busyService.IsBusy = false;
         }
 
+        // EDIT DIALOG
         private void OpenEditDialog()
         {
             if (SelectedUser == null)
@@ -165,6 +168,7 @@ namespace Project.DesktopClient.ViewModels.User
             _busyService.IsBusy = false;
         }
 
+        // DELETE DIALOG
         private void OpenDeleteDialog()
         {
             if (SelectedUser == null)
